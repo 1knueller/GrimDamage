@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using CefSharp;
+using CefSharp.Handler;
+using CefSharp.Internals;
 
 namespace GrimDamage.GUI.Browser {
     // https://github.com/cefsharp/CefSharp/blob/master/CefSharp.Example/RequestHandler.cs
     class DisableLinksRequestHandler : IRequestHandler {
-        public bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect) {
+        public bool OnBeforeBrowse(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, bool isRedirect,bool idk) {
             if (request.Url.StartsWith("discord://")) {
                 Process.Start("https://discord.gg/PJ87Ewa");
                 return true;
@@ -77,6 +80,31 @@ namespace GrimDamage.GUI.Browser {
 
         public void OnResourceLoadComplete(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request,
             IResponse response, UrlRequestStatus status, long receivedContentLength) {
+        }
+
+        void IRequestHandler.OnDocumentAvailableInMainFrame(IWebBrowser chromiumWebBrowser, IBrowser browser)
+        {
+            //throw new NotImplementedException();
+        }
+
+        IResourceRequestHandler IRequestHandler.GetResourceRequestHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+        {
+            return null;
+            //return new InMemoryResourceRequestHandler()
+            //return RequestContextHandler.;
+            //throw new NotImplementedException();
+        }
+
+        bool IRequestHandler.GetAuthCredentials(IWebBrowser chromiumWebBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
+        {
+            //throw new NotImplementedException();
+            return true;
+        }
+
+        bool IRequestHandler.OnSelectClientCertificate(IWebBrowser chromiumWebBrowser, IBrowser browser, bool isProxy, string host, int port, X509Certificate2Collection certificates, ISelectClientCertificateCallback callback)
+        {
+            return true;
+            //throw new NotImplementedException();
         }
     }
 }

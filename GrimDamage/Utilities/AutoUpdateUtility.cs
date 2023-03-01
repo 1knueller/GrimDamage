@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using AutoUpdaterDotNET;
+//using AutoUpdaterDotNET;
 using EvilsoftCommons.Exceptions;
 using log4net;
 
@@ -35,10 +35,10 @@ namespace GrimDamage.Utilities {
             if (GetTickCount64() > 5 * 60 * 1000 && (DateTime.Now - _lastAutomaticUpdateCheck).TotalHours > 36) {
                 Logger.Info("Checking for updates...");
 
-                AutoUpdater.LetUserSelectRemindLater = true;
-                AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Days;
-                AutoUpdater.RemindLaterAt = 7;
-                AutoUpdater.Start(UpdateXml);
+                //AutoUpdater.LetUserSelectRemindLater = true;
+                //AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Days;
+                //AutoUpdater.RemindLaterAt = 7;
+                //AutoUpdater.Start(UpdateXml);
 
                 _lastAutomaticUpdateCheck = DateTime.Now;
             }
@@ -61,7 +61,7 @@ namespace GrimDamage.Utilities {
                 if (_reportUsageStatistics.Elapsed.Hours > 12) {
                     _reportUsageStatistics.Restart();
                     ThreadPool.QueueUserWorkItem(m => ExceptionReporter.ReportUsage());
-                    AutoUpdater.Start(UpdateXml);
+                    //AutoUpdater.Start(UpdateXml);
                 }
             }
         }

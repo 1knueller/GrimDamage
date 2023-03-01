@@ -83,7 +83,7 @@ namespace GrimDamage {
             bool showDevtools = args != null && args.Any(m => m.Contains("-devtools"));
             using (var browser = new CefBrowserHandler()) {
                 WebViewJsPojo jsPojo = new WebViewJsPojo();
-                browser.InitializeChromium(url, jsPojo, null);
+                browser.InitializeChromium(url, jsPojo);
                 Application.Run(new Form1(browser, GetSettings(), showDevtools));
             }
         }

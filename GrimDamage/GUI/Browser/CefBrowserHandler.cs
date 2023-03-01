@@ -89,8 +89,8 @@ namespace GrimDamage.GUI.Browser {
 
         public void InitializeChromium(
             string startPage,
-            WebViewJsPojo bindeable, 
-            EventHandler<IsBrowserInitializedChangedEventArgs> browserIsBrowserInitializedChanged
+            WebViewJsPojo bindeable
+            //,EventHandler<IsBrowserInitializedChangedEventArgs> browserIsBrowserInitializedChanged
             ) {
             this.JsPojo = bindeable;
             this.JsInteractor = new WebViewJsInteractor(bindeable);
@@ -98,15 +98,22 @@ namespace GrimDamage.GUI.Browser {
             try {
                 Logger.Info("Creating Chromium instance..");
                 Cef.EnableHighDPISupport();
-                Cef.Initialize();
+                Cef.Initialize(new CefSettings());
 
                 _browser = new ChromiumWebBrowser(startPage);
-                
-                _browser.RegisterJsObject("data", bindeable, false);
+
+                //_browser.RegisterJsObject("data", bindeable, new BindingOptions() { }); // bo=false
+                CefSharpSettings.WcfEnabled = true;
+                _browser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true;
+                _browser.JavascriptObjectRepository.Register("data", bindeable, isAsync: false, options: BindingOptions.DefaultBinder);
+
+
+
+
                 _browser.RequestHandler = new DisableLinksRequestHandler();
 
-                if (browserIsBrowserInitializedChanged != null)
-                    _browser.IsBrowserInitializedChanged += browserIsBrowserInitializedChanged;
+                //if (browserIsBrowserInitializedChanged != null)
+                    //_browser.IsBrowserInitializedChanged += browserIsBrowserInitializedChanged;
 
                 //browser.RequestHandler = new TransferUrlHijack { TransferMethod = transferItem };
                 Logger.Info("Chromium created..");
